@@ -1,2 +1,4 @@
 db.sqlite3
-superlists/__pycache__/
+__pycache__
+*.pyc
+runserver.sh

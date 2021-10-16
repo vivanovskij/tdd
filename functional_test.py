@@ -27,7 +27,7 @@ class NewVisitorTest(unittest.TestCase):
         # Ввести элемент списка
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(
-            inputbox.get_attrubute('placeholder'),
+            inputbox.get_attribute('placeholder'),
             'Enter a to-do item'
         )
 
@@ -42,7 +42,8 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: Купить павлиньи перья' for row in rows)
+            any(row.text == '1: Купить павлиньи перья' for row in rows),
+            "Новый элемент списка не появился в таблице"
         )
 
 

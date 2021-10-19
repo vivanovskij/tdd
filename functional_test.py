@@ -14,6 +14,12 @@ class NewVisitorTest(unittest.TestCase):
         '''демонтаж'''
         self.browser.quit()
 
+    def check_for_row_in_list_table(self, row_text):
+        '''подтверждение строки в таблице списка'''
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         '''тест: можно начать список и получить его позже'''
         # Открыть домашнюю страницу
@@ -38,6 +44,7 @@ class NewVisitorTest(unittest.TestCase):
         # теперь страница содержит "1: Купить павлиньи перья"
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
+        self.check_for_row_in_list_table('1: Купить павлиньи перья')
 
         # Добавить ещё один элемент
         inputbox = self.browser.find_element_by_id('id_new_item')
@@ -47,14 +54,8 @@ class NewVisitorTest(unittest.TestCase):
 
 
         # Старница обновляется и показывает два элемента списка
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Купить павлиньи перья', [row.text for row in rows])
-        self.assertIn('2: Сделать мушку из павлиньих перьев', [row.text for row in rows])
-        self.assertTrue(
-            any(row.text == '1: Купить павлиньи перья' for row in rows),
-            f"Новый элемент списка не появился в таблице. Содержимым было: {table.text=}"
-        )
+        self.check_for_row_in_list_table('1: Купить павлиньи перья')
+        self.check_for_row_in_list_table('2: Сделать мушку из павлиньих перьев')
 
 
         self.fail('Закончить тест')

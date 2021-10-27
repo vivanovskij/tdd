@@ -1,9 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-import unittest
+from django.test import LiveServerTestCase
 
-class NewVisitorTest(unittest.TestCase):
+
+class NewVisitorTest(LiveServerTestCase):
     '''Тест нового посетителя'''
 
     def setUp(self):
@@ -23,7 +24,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_can_start_a_list_and_retrieve_it_later(self):
         '''тест: можно начать список и получить его позже'''
         # Открыть домашнюю страницу
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # Заголовок и шапка
         self.assertIn('To-Do', self.browser.title)
@@ -52,13 +53,9 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
-
         # Старница обновляется и показывает два элемента списка
         self.check_for_row_in_list_table('1: Купить павлиньи перья')
-        self.check_for_row_in_list_table('2: Сделать мушку из павлиньих перьев')
-
+        self.check_for_row_in_list_table(
+            '2: Сделать мушку из павлиньих перьев')
 
         self.fail('Закончить тест')
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')

@@ -3,3 +3,5 @@ __pycache__
 *.pyc
 runserver.sh
 pyrightconfig.json
+.vim/
+typings/
